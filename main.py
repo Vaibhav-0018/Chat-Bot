@@ -33,7 +33,9 @@ async def sms_webhook(
     try:
         ai_response = await get_openai_response(user_message)
     except Exception as e:
-        ai_response = "Sorry, I couldn't process your request right now."
+        import logging
+        logging.exception("OpenAI call failed")
+        ai_response = f"Sorry, error: {str(e)}"
 
     # Respond via Twilio (using TwiML)
     twiml = MessagingResponse()
